@@ -11,7 +11,7 @@ namespace HashMap
     class DataProcessor
     {
 
-        private readonly String filePath = @"C:\Users\Marnik\Documents\GitHub\DataScience\HashMap\HashMap\userItem.data";
+        private readonly String filePath = @"../../userItem.data";
         private Dictionary<int, UserPreference> map; 
 
         public DataProcessor()
@@ -57,7 +57,7 @@ namespace HashMap
             {
                 currentPreference = map[userID];
             }
-            currentPreference.addNewRecord(articleID, rating);
+            currentPreference.AddNewRecord(articleID, rating);
         } 
     }
 }

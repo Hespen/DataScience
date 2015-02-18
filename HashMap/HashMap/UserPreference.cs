@@ -10,26 +10,21 @@ public class UserPreference
         this.ratings = new Dictionary<int, float>();
     }
 
-    public void addNewRecord(int articleID, float rating)
+    public void AddNewRecord(int articleId, float rating)
     {
-        if (!ratings.ContainsKey(articleID))
+        if (!ratings.ContainsKey(articleId))
         {
-            ratings.Add(articleID, rating);
+            ratings.Add(articleId, rating);
         }
     }
 
-    public Dictionary<int, float> getRatings()
+    public Dictionary<int, float> GetRatings()
     {
         return ratings;
     }
 
-    public float getRating(int articleID)
+    public float GetRating(int articleId)
     {
-        if (ratings.ContainsKey(articleID))
-        {
-            return ratings[articleID];
-        }
-        return -1;
-
+        return ratings.ContainsKey(articleId) ? ratings[articleId] : 0;
     }
 }

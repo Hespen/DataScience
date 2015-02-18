@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HashMap
 {
-    class Eucledian
+    class Eucledian : ICalculator
     {   
         /// <summary>
         /// Distance of users vs the target users
@@ -19,7 +19,7 @@ namespace HashMap
         }
 
 
-        public void execute(Dictionary<int, UserPreference> userRatings, int target)
+        public void Execute(Dictionary<int, UserPreference> userRatings, int target)
         {  
             UserPreference targetRatings = userRatings[target];
             userRatings.Remove(target);
@@ -28,7 +28,6 @@ namespace HashMap
             foreach(KeyValuePair<int, UserPreference> userRating in userRatings){
                 double similarity = calculateSimilarities(targetRatings, userRating);
             }
-            
         }
 
         /// <summary>
@@ -42,12 +41,12 @@ namespace HashMap
             double userDifference = 0;
 
             // Loop through all product ratings of the target user
-            foreach (KeyValuePair<int, float> targetRating in targetRatings.getRatings())
+            foreach (KeyValuePair<int, float> targetRating in targetRatings.GetRatings())
             {
                 // Get the rating of the other user
-                float rating = userRating.Value.getRating(targetRating.Key);
+                float rating = userRating.Value.GetRating(targetRating.Key);
 
-                if (rating != -1)
+                if (rating > 0)
                 {
                     userDifference += Math.Pow(targetRating.Value - rating, 2);
                 }
@@ -55,5 +54,6 @@ namespace HashMap
             double distance = Math.Sqrt(userDifference);
             return 1 / (1 + distance);
         }
+
     }
 }
