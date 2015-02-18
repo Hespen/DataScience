@@ -17,4 +17,19 @@ public class UserPreference
             ratings.Add(articleID, rating);
         }
     }
+
+    public Dictionary<int, float> getRatings()
+    {
+        return ratings;
+    }
+
+    public float getRating(int articleID)
+    {
+        if (ratings.ContainsKey(articleID))
+        {
+            return ratings[articleID];
+        }
+        return -1;
+
+    }
 }

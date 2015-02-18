@@ -11,7 +11,7 @@ namespace HashMap
     class DataProcessor
     {
 
-        private readonly String filePath = @"C:\Users\Peter van Hespen\Copy\Rotterdam\Data Science\HashMap\HashMap\userItem.data";
+        private readonly String filePath = @"C:\Users\Marnik\Documents\GitHub\DataScience\HashMap\HashMap\userItem.data";
         private Dictionary<int, UserPreference> map; 
 
         public DataProcessor()

@@ -14,6 +14,8 @@ namespace HashMap
         {
             DataProcessor processor = new DataProcessor();
             Dictionary<int, UserPreference> result = processor.readDataFromFile();
+            Eucledian eucledian = new Eucledian();
+            eucledian.execute(result, 7);
             Console.ReadKey();
         }
     }
