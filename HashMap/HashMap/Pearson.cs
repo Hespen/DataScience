@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace HashMap
 {
@@ -8,12 +9,25 @@ namespace HashMap
         public void Execute(Dictionary<int, UserPreference> userRatings, int target)
         {
             UserPreference targetUserPreferences = userRatings[target];
-            userRatings.Remove(target);
+            var neighbours = new Dictionary<int, double>();
+            var nearestNeighbours = new Dictionary<int, double>();
+            int n = 0;
+
+            Console.WriteLine("=======Pearson========");
 
             foreach (var userPreference in userRatings)
             {
-                Console.WriteLine("Current User " + userPreference.Key);
+                if (userPreference.Value == targetUserPreferences) continue;
                 double similarity = CalculateSimilarities(targetUserPreferences, userPreference);
+                neighbours.Add(userPreference.Key, similarity);
+            }
+            //Loop through similarities, ordered by descending value
+            foreach (var neighbour in neighbours.OrderByDescending(key => key.Value))
+            {
+                if (neighbour.Value < 0.35 || n >= 3) continue;
+                nearestNeighbours.Add(neighbour.Key, neighbour.Value);
+                Console.WriteLine("User " + neighbour.Key + " with a value of " + neighbour.Value);
+                n++;
             }
         }
 
@@ -24,7 +38,7 @@ namespace HashMap
         /// <param name="targetRatings"></param>
         /// <param name="userRatings"></param>
         /// <returns>
-        /// The Pearson coefficient of the two users. Range of -1 to 1
+        ///     The Pearson coefficient of the two users. Range of -1 to 1
         /// </returns>
         private double CalculateSimilarities(UserPreference targetRatings,
             KeyValuePair<int, UserPreference> userRatings)
@@ -64,7 +78,7 @@ namespace HashMap
             //Calculate the pc
             double pearsonCoefficient = (XiYi - ((Xi*Yi)/n))/
                                         (Math.Sqrt(Xi2 - (Math.Pow(Xi, 2))/n)*Math.Sqrt(Yi2 - (Math.Pow(Yi, 2))/n));
-            Console.WriteLine("R = "+pearsonCoefficient);
+            Console.WriteLine(pearsonCoefficient);
             return pearsonCoefficient;
         }
     }

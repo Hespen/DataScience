@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 public class UserPreference
 {
-    private Dictionary<int,float> ratings;
+    private readonly Dictionary<int, float> ratings;
+
     public UserPreference()
     {
-        this.ratings = new Dictionary<int, float>();
+        ratings = new Dictionary<int, float>();
     }
 
     public void AddNewRecord(int articleId, float rating)

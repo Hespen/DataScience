@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HashMap
 {
-    class Calculator
+    internal class Calculator
     {
-
         private ICalculator calculator;
-        private Dictionary<int, UserPreference> ratingsDataSet; 
+        private Dictionary<int, UserPreference> ratingsDataSet;
 
         public void SetCalculator(ICalculator calculator)
         {
@@ -19,7 +15,7 @@ namespace HashMap
 
         public void PassDataSet(Dictionary<int, UserPreference> dataSet)
         {
-            this.ratingsDataSet = dataSet;
+            ratingsDataSet = dataSet;
         }
 
         public void ExecuteWithTarget(int i)

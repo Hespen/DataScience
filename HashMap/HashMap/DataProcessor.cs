@@ -2,17 +2,13 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HashMap
 {
-    class DataProcessor
+    internal class DataProcessor
     {
-
         private readonly String filePath = @"../../userItem.data";
-        private Dictionary<int, UserPreference> map; 
+        private readonly Dictionary<int, UserPreference> map;
 
         public DataProcessor()
         {
@@ -23,7 +19,7 @@ namespace HashMap
         {
             try
             {
-                using (StreamReader sr = new StreamReader(filePath))
+                using (var sr = new StreamReader(filePath))
                 {
                     String line;
                     while ((line = sr.ReadLine()) != null)
@@ -58,6 +54,6 @@ namespace HashMap
                 currentPreference = map[userID];
             }
             currentPreference.AddNewRecord(articleID, rating);
-        } 
+        }
     }
 }

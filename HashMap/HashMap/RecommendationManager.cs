@@ -1,24 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace HashMap
 {
-    class RecommendationManager
+    internal class RecommendationManager
     {
-
         private ICalculator calculator;
-        private Dictionary<int, UserPreference> ratingsDataSet; 
+        private Dictionary<int, UserPreference> ratingsDataSet;
 
-        public RecommendationManager(){}
-
-        public void startDataRead()
+        public void StartDataRead()
         {
-            DataProcessor processor = new DataProcessor();
-            Calculator calculator = new Calculator();
+            var processor = new DataProcessor();
+            var calculator = new Calculator();
             calculator.PassDataSet(processor.readDataFromFile());
 
             calculator.SetCalculator(new Pearson());
@@ -27,8 +19,9 @@ namespace HashMap
 
             calculator.SetCalculator(new Eucledian());
             calculator.ExecuteWithTarget(7);
-        }
 
-        
+            calculator.SetCalculator(new Cosine());
+            calculator.ExecuteWithTarget(7);
+        }
     }
 }
