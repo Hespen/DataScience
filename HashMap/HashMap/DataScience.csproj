@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Calculator.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Cosine.cs" />
     <Compile Include="DataProcessor.cs" />
     <Compile Include="Eucledian.cs" />

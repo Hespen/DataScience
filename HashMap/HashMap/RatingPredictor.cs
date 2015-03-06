@@ -18,9 +18,9 @@ namespace HashMap
             
         }
 
-        public void CalculateInfluenceWeight()
+        public double CalculateInfluenceWeight()
         {
-            if (nearestNeighbours == null || articleId == 0) return;
+            if (nearestNeighbours == null || articleId == 0) return -1;
 
             double totalCoefficient = 0;
             var userRatings = new Dictionary<int, double>();
@@ -42,10 +42,10 @@ namespace HashMap
                 }
             }
             
-            CalculatePredictedRating(userRatings,totalCoefficient);
+            return CalculatePredictedRating(userRatings,totalCoefficient);
         }
 
-        private void CalculatePredictedRating(Dictionary<int, double> userRatings, double totalCoefficient)
+        private double CalculatePredictedRating(Dictionary<int, double> userRatings, double totalCoefficient)
         {
             double predictedRating = 0.0;
             //Calculate ratings
@@ -56,6 +56,7 @@ namespace HashMap
                 predictedRating += influenceWeight * userRating.Value;
             }
             Console.WriteLine(predictedRating);
+            return predictedRating;
         }
 
         public Dictionary<int, double> NearestNeighbours

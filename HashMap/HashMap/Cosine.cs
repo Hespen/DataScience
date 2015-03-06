@@ -25,7 +25,7 @@ namespace HashMap
             //Loop through all similarities, order descending.
             foreach (var neighbour in neighbours.OrderByDescending(key => key.Value))
             {
-                if (neighbour.Value < 0.35 || n >= 3) continue;
+                if (neighbour.Value < 0.35 || n >= Constants.NearestNeighbours) continue;
                 nearestNeighbours.Add(neighbour.Key, neighbour.Value);
                 Console.WriteLine("User " + neighbour.Key + " with a value of " + neighbour.Value);
                 n++;

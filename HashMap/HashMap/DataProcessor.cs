@@ -9,10 +9,12 @@ namespace HashMap
     {
         private readonly String filePath = @"../../movielens.data";
         private readonly Dictionary<int, UserPreference> map;
+        public static HashSet<int> articleIds;
 
         public DataProcessor()
         {
             map = new Dictionary<int, UserPreference>();
+            articleIds = new HashSet<int>();
         }
 
         public Dictionary<int, UserPreference> readDataFromFile()
@@ -43,6 +45,7 @@ namespace HashMap
             UserPreference currentPreference;
             int userID = Convert.ToInt16(data[0]);
             int articleID = Convert.ToInt16(data[1]);
+            articleIds.Add(articleID);
             float rating = float.Parse(data[2], CultureInfo.InvariantCulture.NumberFormat);
             if (!map.ContainsKey(userID))
             {
