@@ -7,7 +7,7 @@ namespace HashMap
 {
     internal class DataProcessor
     {
-        private readonly String filePath = @"../../userItem.data";
+        private readonly String filePath = @"../../movielens.data";
         private readonly Dictionary<int, UserPreference> map;
 
         public DataProcessor()
@@ -39,7 +39,7 @@ namespace HashMap
 
         private void processLine(String line)
         {
-            String[] data = line.Split(',');
+            String[] data = line.Split('\t');
             UserPreference currentPreference;
             int userID = Convert.ToInt16(data[0]);
             int articleID = Convert.ToInt16(data[1]);

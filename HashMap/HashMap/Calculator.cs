@@ -7,6 +7,12 @@ namespace HashMap
     {
         private ICalculator calculator;
         private Dictionary<int, UserPreference> ratingsDataSet;
+        private RatingPredictor ratingPredictor;
+
+        public Calculator()
+        {
+            ratingPredictor = new RatingPredictor();
+        }
 
         public void SetCalculator(ICalculator calculator)
         {
@@ -30,9 +36,20 @@ namespace HashMap
             }
             else
             {
-                calculator.Execute(ratingsDataSet, i);
+                SetUpRatingPredictor(calculator.Execute(ratingsDataSet, i));
             }
             Console.ReadKey();
+        }
+
+        private void SetUpRatingPredictor(Dictionary<int, double> nearestNeighbours)
+        {
+            ratingPredictor.NearestNeighbours = nearestNeighbours;
+            int[] targetIds = new int[]{101,103,106};
+            foreach (var targetId in targetIds)
+            {
+                ratingPredictor.ArticleId = targetId;
+                ratingPredictor.CalculateInfluenceWeight();
+            }
         }
     }
 }

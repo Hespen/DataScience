@@ -13,7 +13,7 @@ namespace HashMap
         private List<KeyValuePair<int, double>> distances;
 
 
-        public void Execute(Dictionary<int, UserPreference> userRatings, int target)
+        public Dictionary<int,double> Execute(Dictionary<int, UserPreference> userRatings, int target)
         {
             UserPreference targetRatings = userRatings[target];
             var neighbours = new Dictionary<int, double>();
@@ -38,6 +38,7 @@ namespace HashMap
                 Console.WriteLine("User " + neighbour.Key + " with a value of " + neighbour.Value);
                 n++;
             }
+            return nearestNeighbours;
         }
 
         /// <summary>

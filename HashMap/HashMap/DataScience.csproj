@@ -49,6 +49,7 @@
     <Compile Include="Pearson.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RatingPredictor.cs" />
     <Compile Include="RecommendationManager.cs" />
     <Compile Include="UserPreference.cs" />
   </ItemGroup>

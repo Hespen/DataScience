@@ -6,7 +6,7 @@ namespace HashMap
 {
     internal class Cosine : ICalculator
     {
-        public void Execute(Dictionary<int, UserPreference> userRatings, int target)
+        public Dictionary<int,double> Execute(Dictionary<int, UserPreference> userRatings, int target)
         {
             UserPreference targetUserPreferences = userRatings[target];
             var neighbours = new Dictionary<int, double>();
@@ -30,6 +30,7 @@ namespace HashMap
                 Console.WriteLine("User " + neighbour.Key + " with a value of " + neighbour.Value);
                 n++;
             }
+            return nearestNeighbours;
         }
 
         private double CalculateSimilarities(UserPreference targetUserPreferences,

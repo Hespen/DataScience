@@ -4,6 +4,6 @@ namespace HashMap
 {
     internal interface ICalculator
     {
-        void Execute(Dictionary<int, UserPreference> userRatings, int target);
+        Dictionary<int,double> Execute(Dictionary<int, UserPreference> userRatings, int target);
     }
 }
