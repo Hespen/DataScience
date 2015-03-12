@@ -41,16 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Calculator.cs" />
+    <Compile Include="Item-Item\DataTableProcessor.cs" />
+    <Compile Include="Item-Item\DeviationCalculator.cs" />
+    <Compile Include="User-Item\Calculator.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="Cosine.cs" />
-    <Compile Include="DataProcessor.cs" />
-    <Compile Include="Eucledian.cs" />
-    <Compile Include="ICalculator.cs" />
-    <Compile Include="Pearson.cs" />
+    <Compile Include="User-Item\Strategy\Cosine.cs" />
+    <Compile Include="User-Item\DataProcessor.cs" />
+    <Compile Include="User-Item\Strategy\Eucledian.cs" />
+    <Compile Include="User-Item\Strategy\ICalculator.cs" />
+    <Compile Include="User-Item\Strategy\Pearson.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RatingPredictor.cs" />
+    <Compile Include="User-Item\RatingPredictor.cs" />
     <Compile Include="RecommendationManager.cs" />
     <Compile Include="UserPreference.cs" />
   </ItemGroup>

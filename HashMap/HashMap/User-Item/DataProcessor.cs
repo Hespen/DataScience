@@ -7,17 +7,17 @@ namespace HashMap
 {
     internal class DataProcessor
     {
-        private readonly String filePath = @"../../movielens.data";
-        private readonly Dictionary<int, UserPreference> map;
-        public static HashSet<int> articleIds;
+        private readonly String filePath = @"../../userItem.data";
+        private readonly Dictionary<int, UserPreference> _map;
+        public static HashSet<int> ArticleIds;
 
         public DataProcessor()
         {
-            map = new Dictionary<int, UserPreference>();
-            articleIds = new HashSet<int>();
+            _map = new Dictionary<int, UserPreference>();
+            ArticleIds = new HashSet<int>();
         }
 
-        public Dictionary<int, UserPreference> readDataFromFile()
+        public Dictionary<int, UserPreference> ReadDataFromFile()
         {
             try
             {
@@ -26,7 +26,7 @@ namespace HashMap
                     String line;
                     while ((line = sr.ReadLine()) != null)
                     {
-                        processLine(line);
+                        ProcessLine(line);
                     }
                 }
             }
@@ -36,27 +36,27 @@ namespace HashMap
                 Console.WriteLine(e.Message);
                 Console.ReadKey();
             }
-            return map;
+            return _map;
         }
 
-        private void processLine(String line)
+        private void ProcessLine(String line)
         {
-            String[] data = line.Split('\t');
+            String[] data = line.Split(',');
             UserPreference currentPreference;
-            int userID = Convert.ToInt16(data[0]);
-            int articleID = Convert.ToInt16(data[1]);
-            articleIds.Add(articleID);
+            int userId = Convert.ToInt16(data[0]);
+            int articleId = Convert.ToInt16(data[1]);
+            ArticleIds.Add(articleId);
             float rating = float.Parse(data[2], CultureInfo.InvariantCulture.NumberFormat);
-            if (!map.ContainsKey(userID))
+            if (!_map.ContainsKey(userId))
             {
                 currentPreference = new UserPreference();
-                map.Add(userID, currentPreference);
+                _map.Add(userId, currentPreference);
             }
             else
             {
-                currentPreference = map[userID];
+                currentPreference = _map[userId];
             }
-            currentPreference.AddNewRecord(articleID, rating);
+            currentPreference.AddNewRecord(articleId, rating);
         }
     }
 }

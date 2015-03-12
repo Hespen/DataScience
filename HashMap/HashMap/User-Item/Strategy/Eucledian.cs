@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace HashMap
+namespace HashMap.Strategy
 {
     internal class Eucledian : ICalculator
     {
         /// <summary>
         ///     Distance of users vs the target users
         /// </summary>
-        private List<KeyValuePair<int, double>> distances;
+        private List<KeyValuePair<int, double>> _distances;
 
 
         public Dictionary<int,double> Execute(Dictionary<int, UserPreference> userRatings, int target)

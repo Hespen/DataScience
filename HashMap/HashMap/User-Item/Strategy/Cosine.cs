@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace HashMap
+namespace HashMap.Strategy
 {
     internal class Cosine : ICalculator
     {

@@ -10,8 +10,8 @@ namespace HashMap
     class RatingPredictor
     {
 
-        private Dictionary<int, double> nearestNeighbours;
-        private int articleId;
+        private Dictionary<int, double> _nearestNeighbours;
+        private int _articleId;
 
         public RatingPredictor()
         {
@@ -20,12 +20,12 @@ namespace HashMap
 
         public double CalculateInfluenceWeight()
         {
-            if (nearestNeighbours == null || articleId == 0) return -1;
+            if (_nearestNeighbours == null || _articleId == 0) return -1;
 
             double totalCoefficient = 0;
             var userRatings = new Dictionary<int, double>();
 
-            foreach (var nearestNeighbour in nearestNeighbours)
+            foreach (var nearestNeighbour in _nearestNeighbours)
             {
                 
                 if (RecommendationManager.UserPreferences.ContainsKey(nearestNeighbour.Key))
@@ -33,7 +33,7 @@ namespace HashMap
                     //If Nearest Neighbour has rated the product, add the coefficient to the totalCoefficient value.
                     //Create new Dictionary with all neighbours who rated the product
                     UserPreference userPreference = RecommendationManager.UserPreferences[nearestNeighbour.Key];
-                    float rating = userPreference.GetRating(articleId);
+                    float rating = userPreference.GetRating(_articleId);
                     if (rating > -1)
                     {
                         totalCoefficient += nearestNeighbour.Value;
@@ -51,7 +51,7 @@ namespace HashMap
             //Calculate ratings
             foreach (var userRating in userRatings)
             {
-                double coefficient = nearestNeighbours[userRating.Key];
+                double coefficient = _nearestNeighbours[userRating.Key];
                 double influenceWeight = coefficient / totalCoefficient;
                 predictedRating += influenceWeight * userRating.Value;
             }
@@ -61,14 +61,14 @@ namespace HashMap
 
         public Dictionary<int, double> NearestNeighbours
         {
-            get { return nearestNeighbours; }
-            set { nearestNeighbours = value; }
+            get { return _nearestNeighbours; }
+            set { _nearestNeighbours = value; }
         }
 
         public int ArticleId
         {
-            get { return articleId; }
-            set { articleId = value; }
+            get { return _articleId; }
+            set { _articleId = value; }
         }
 
 

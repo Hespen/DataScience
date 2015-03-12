@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace HashMap
+namespace HashMap.Strategy
 {
     internal interface ICalculator
     {

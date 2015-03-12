@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using HashMap.Strategy;
 
 namespace HashMap
 {
@@ -68,7 +69,7 @@ namespace HashMap
             ArrayList ids = new ArrayList();
 
             UserPreference targetUser = RecommendationManager.UserPreferences[186];
-            foreach (var articleId in DataProcessor.articleIds)
+            foreach (var articleId in DataProcessor.ArticleIds)
             {
                 if (targetUser.GetRating(articleId) == -1)
                 {

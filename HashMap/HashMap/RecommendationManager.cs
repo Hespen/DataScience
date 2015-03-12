@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 
 namespace HashMap
 {
@@ -6,15 +7,16 @@ namespace HashMap
     {
 
         public static Dictionary<int, UserPreference> UserPreferences;
+        private DataTable _userRatings;
 
         public void StartDataRead()
         {
             var processor = new DataProcessor();
             var calculator = new Calculator();
-            UserPreferences = processor.readDataFromFile();
+            UserPreferences = processor.ReadDataFromFile();
             calculator.PassDataSet(UserPreferences);
 
-            calculator.SetCalculator(new Pearson());
+            /*calculator.SetCalculator(new Pearson());
             calculator.ExecuteWithTarget(186);
 
 
@@ -22,7 +24,13 @@ namespace HashMap
             calculator.ExecuteWithTarget(186);
 
             calculator.SetCalculator(new Cosine());
-            calculator.ExecuteWithTarget(186);
+            calculator.ExecuteWithTarget(186);*/
+
+            DataTableProcessor dtProcessor = new DataTableProcessor();
+            _userRatings = dtProcessor.ReadDataFromFile();
+
+            DeviationCalculator dc = new DeviationCalculator(_userRatings);
+            dc.Execute();;
         }
     }
 }
