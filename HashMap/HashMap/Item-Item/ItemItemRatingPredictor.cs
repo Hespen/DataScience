@@ -12,10 +12,10 @@ namespace HashMap
     class ItemItemRatingPredictor
     {
         private int _targetUser;
-        private DataTable _deviations;
+        private readonly DataTable _deviations;
         private DataRow _targetUserRow;
         private string[] _columnNames;
-        private List<Tuple<int, int, double>> predictedRatings; 
+        private List<Tuple<int, int, double>> _predictedRatings; 
 
         public ItemItemRatingPredictor(DataTable deviations)
         {
@@ -25,7 +25,7 @@ namespace HashMap
         public void Execute()
         {
             List<int> notRatedArticles = GetNotRatedArticles();
-            predictedRatings = new List<Tuple<int, int, double>>();
+            _predictedRatings = new List<Tuple<int, int, double>>();
 
             foreach (var notRatedArticle in notRatedArticles)
             {
@@ -33,12 +33,12 @@ namespace HashMap
 
                 if (Math.Abs(predictedRating) > 0)
                 {
-                    predictedRatings.Add(new Tuple<int, int, double>(_targetUser, notRatedArticle, predictedRating));
+                    _predictedRatings.Add(new Tuple<int, int, double>(_targetUser, notRatedArticle, predictedRating));
                 }
             }
 
-            predictedRatings = predictedRatings.OrderByDescending(tuple => tuple.Item3).ToList();
-            PrintResults(predictedRatings);
+            _predictedRatings = _predictedRatings.OrderByDescending(tuple => tuple.Item3).ToList();
+            PrintResults(_predictedRatings);
         }
 
         public void SetUser(int targetUser)
