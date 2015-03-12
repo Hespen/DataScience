@@ -36,30 +36,12 @@ namespace HashMap
                 // The articleId used in this loop represents the right column (u∈𝑆j)
                 foreach (var id in DataTableProcessor.ArticleIds)
                 {
-                    double numerator = 0;
-                    int denominator = 0;
                     double deviation = 0;
 
                     if (articleId == id) continue;
                     List<string> rightColumn = _userRatings.AsEnumerable().Select(s => s.Field<string>(id.ToString())).ToList();
 
-                    // Loop through all elements in both lists. If both elements have a value/rating, 
-                    // subtract both values and add it to the numerator.
-                    for (int i = 0; i < leftColumn.Count; i++)
-                    {
-                        if (leftColumn[i] != null && rightColumn[i] != null)
-                        {
-                            float ui = float.Parse(leftColumn[i], CultureInfo.InvariantCulture.NumberFormat);
-                            float uj = float.Parse(rightColumn[i], CultureInfo.InvariantCulture.NumberFormat);
-
-                            numerator += (ui - uj);
-                            denominator ++;
-                        }
-                    }
-                    deviation = numerator/denominator;
-
-                    // Save the deviation AND the denominator in the right cell.
-                    dr[id.ToString()] = new Tuple<string, string>(deviation.ToString(), denominator.ToString());
+                    dr[id.ToString()] = CalculateDeviation(leftColumn, rightColumn);
                 }
                 _deviations.Rows.Add(dr);
             }
@@ -74,6 +56,29 @@ namespace HashMap
             }
         }
 
+        // Loop through all elements in both lists. If both elements have a value/rating, 
+        // subtract both values and add it to the numerator.
+        private Tuple<string, string> CalculateDeviation(List<string> leftColumn, List<string> rightColumn)
+        {
+            double numerator = 0;
+            int denominator = 0;
+
+            for (int i = 0; i < leftColumn.Count; i++)
+            {
+                if (leftColumn[i] != null && rightColumn[i] != null)
+                {
+                    float ui = float.Parse(leftColumn[i], CultureInfo.InvariantCulture.NumberFormat);
+                    float uj = float.Parse(rightColumn[i], CultureInfo.InvariantCulture.NumberFormat);
+
+                    numerator += (ui - uj);
+                    denominator ++;
+                }
+            }
+            double deviation = numerator/denominator;
+
+            // Both deviation AND denominator need to be saved in the cell.
+            return new Tuple<string, string>(deviation.ToString(), denominator.ToString());
+        }
 
         /// <summary>
         /// This method checks what articles the target user has not yet rated.
