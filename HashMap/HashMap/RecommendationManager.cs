@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace HashMap
@@ -8,6 +9,7 @@ namespace HashMap
 
         public static Dictionary<int, UserPreference> UserPreferences;
         private DataTable _userRatings;
+        private DataTable deviations;
 
         public void StartDataRead()
         {
@@ -29,8 +31,19 @@ namespace HashMap
             DataTableProcessor dtProcessor = new DataTableProcessor();
             _userRatings = dtProcessor.ReadDataFromFile();
 
-            DeviationCalculator dc = new DeviationCalculator(_userRatings);
-            dc.Execute();;
+            DeviationCalculator dc = new DeviationCalculator();
+            deviations = dc.Execute();
+
+            ItemItemRatingPredictor iirp = new ItemItemRatingPredictor(deviations);
+
+            iirp.SetUser(7);
+            iirp.Execute();
+
+            iirp.SetUser(3);
+            iirp.Execute();
+
+            Console.ReadKey();
+
         }
     }
 }

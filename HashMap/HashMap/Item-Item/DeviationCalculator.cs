@@ -10,26 +10,24 @@ namespace HashMap
 {
     class DeviationCalculator
     {
-        private readonly DataTable _userRatings;
-        private readonly UserPreference _targetRatings;
         private DataTable _deviations = new DataTable();
 
-        public DeviationCalculator(DataTable userRatings)
+        public DeviationCalculator()
         {
-            _userRatings = userRatings;
         }
 
         /// <summary>
         /// Formula for calculating deviations: 𝒅𝒆𝒗𝒊,𝒋 = 𝑢∈𝑆𝑖,𝑗 (𝑢𝑖 − 𝑢𝑗) / card(𝑆𝑖,𝑗)
         /// </summary>
-        public void Execute()
+        /// <returns>A DataTable which contains all deviations between articles</returns>
+        public DataTable Execute()
         {
             AddColumns();
 
             // The articleId used in this loop represents the left column (u∈𝑆i)
             foreach (var articleId in DataTableProcessor.ArticleIds)
             {
-                List<string> leftColumn = _userRatings.AsEnumerable().Select(s => s.Field<string>(articleId.ToString())).ToList();
+                List<string> leftColumn = DataTableProcessor.UserRatings.AsEnumerable().Select(s => s.Field<string>(articleId.ToString())).ToList();
                 DataRow dr = _deviations.NewRow();
                 dr[0] = articleId;
 
@@ -39,12 +37,13 @@ namespace HashMap
                     double deviation = 0;
 
                     if (articleId == id) continue;
-                    List<string> rightColumn = _userRatings.AsEnumerable().Select(s => s.Field<string>(id.ToString())).ToList();
+                    List<string> rightColumn = DataTableProcessor.UserRatings.AsEnumerable().Select(s => s.Field<string>(id.ToString())).ToList();
 
                     dr[id.ToString()] = CalculateDeviation(leftColumn, rightColumn);
                 }
                 _deviations.Rows.Add(dr);
             }
+            return _deviations;
         }
 
         private void AddColumns()
@@ -58,7 +57,7 @@ namespace HashMap
 
         // Loop through all elements in both lists. If both elements have a value/rating, 
         // subtract both values and add it to the numerator.
-        private Tuple<string, string> CalculateDeviation(List<string> leftColumn, List<string> rightColumn)
+        private string CalculateDeviation(List<string> leftColumn, List<string> rightColumn)
         {
             double numerator = 0;
             int denominator = 0;
@@ -77,27 +76,7 @@ namespace HashMap
             double deviation = numerator/denominator;
 
             // Both deviation AND denominator need to be saved in the cell.
-            return new Tuple<string, string>(deviation.ToString(), denominator.ToString());
-        }
-
-        /// <summary>
-        /// This method checks what articles the target user has not yet rated.
-        /// </summary>
-        /// <returns>A list with article ids the target user has not yet rated.</returns>
-        private List<int> GetNotRatedArticles()
-        {
-            // This HashSet contains all articles present in the data set. After execution of this method, it 
-            // contains only article ids the target user has not yet rated.
-            HashSet<int> articleIds = DataTableProcessor.ArticleIds;
-
-            var ratedArticles = _targetRatings.GetRatings().Keys.ToList();
-
-            foreach (var ratedArticle in ratedArticles)
-            {
-                articleIds.Remove(ratedArticle);
-            }
-
-            return articleIds.ToList();
+            return deviation + ";" + denominator;
         }
 
     }

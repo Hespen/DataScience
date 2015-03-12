@@ -15,7 +15,7 @@ namespace HashMap
         private readonly Dictionary<int, UserPreference> _map;
         public static HashSet<int> ArticleIds;
         private DataTable _userRatingsTemp;
-        private DataTable _userRatings;
+        public static DataTable UserRatings;
 
         public DataTableProcessor()
         {
@@ -63,8 +63,8 @@ namespace HashMap
 
         private DataTable ConvertDataTable()
         {
-            _userRatings = new DataTable();
-            _userRatings.Columns.Add("UserId");
+            UserRatings = new DataTable();
+            UserRatings.Columns.Add("UserId");
 
             // Get all distinct article ids, put them in a list and sort them.
             List<string> articleIds= _userRatingsTemp.AsEnumerable().Select(s => s.Field<string>(1)).ToArray<string>().Distinct().ToList();
@@ -72,7 +72,7 @@ namespace HashMap
 
             foreach (var articleId in articleIds)
             {
-                _userRatings.Columns.Add(articleId);
+                UserRatings.Columns.Add(articleId);
                 ArticleIds.Add(Convert.ToInt32(articleId));
             }
 
@@ -82,7 +82,7 @@ namespace HashMap
             foreach (var userId in userIds)
             {
                 List<DataRow> rows = _userRatingsTemp.AsEnumerable().Where(s => s.Field<string>(0) == userId).ToList();
-                DataRow dr = _userRatings.NewRow();
+                DataRow dr = UserRatings.NewRow();
 
                 dr[0] = userId;
 
@@ -91,10 +91,10 @@ namespace HashMap
                     dr[dataRow[1].ToString()] = dataRow[2];
                 }
 
-                _userRatings.Rows.Add(dr);
+                UserRatings.Rows.Add(dr);
             }
             
-            return _userRatings;
+            return UserRatings;
 
         }
     }

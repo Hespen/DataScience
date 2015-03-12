@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Item-Item\DataTableProcessor.cs" />
     <Compile Include="Item-Item\DeviationCalculator.cs" />
+    <Compile Include="Item-Item\ItemItemRatingPredictor.cs" />
     <Compile Include="User-Item\Calculator.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="User-Item\Strategy\Cosine.cs" />
