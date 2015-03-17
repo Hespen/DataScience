@@ -79,5 +79,51 @@ namespace HashMap
             return deviation + ";" + denominator;
         }
 
+        public void InsertRating(int userId, int articleId, double rating)
+        {
+            DataRow userRatingsRow = DataTableProcessor.UserRatings.AsEnumerable().Where(s => s.Field<string>(0) == userId.ToString()).ToList()[0];
+            userRatingsRow[articleId.ToString()] = rating.ToString();
+
+            UpdateDeviations(articleId, rating, userRatingsRow);
+        }
+
+        /// <summary>
+        /// formula for updating deviation : 𝑑𝑒𝑣𝐴,𝐵′ = (𝑑𝑒𝑣𝐴,𝐵 × 𝑛) + (𝑟𝐴 − 𝑟𝐵) / 𝑛 + 1
+        /// </summary>
+        /// <param name="articleId"></param>
+        private void UpdateDeviations(int articleId, double rating, DataRow userRatingsRow)
+        {
+            DataRow articleDeviationsRow = _deviations.AsEnumerable().Where(s => s.Field<string>(0) == articleId.ToString()).ToList()[0];
+
+            for (int i = 1; i < _deviations.Columns.Count; i++)
+            {
+                double numerator;
+                double newDeviation;
+                int oldDenominator;
+
+                Console.WriteLine(i);
+
+                string selectedDeviation = articleDeviationsRow[i].ToString();
+                if (selectedDeviation.Equals("") || userRatingsRow[i].ToString().Equals("")) continue;
+                string[] deviationAndDenominator = selectedDeviation.Split(';');
+
+                oldDenominator = Convert.ToInt32(deviationAndDenominator[1]);
+
+                // devABN = (𝑑𝑒𝑣𝐴,𝐵 × 𝑛)
+                double devABN = Convert.ToDouble(deviationAndDenominator[0])*oldDenominator;
+
+                float targetRating = float.Parse(userRatingsRow[i].ToString(), CultureInfo.InvariantCulture.NumberFormat);
+
+                // devABN + (𝑟𝐴 − 𝑟𝐵)
+                numerator = devABN + (rating - targetRating);
+
+                newDeviation = numerator/(oldDenominator + 1);
+
+                articleDeviationsRow[i] = newDeviation + ";" + (oldDenominator + 1);
+
+                _deviations.Rows[i-1][articleId.ToString()] = (-1 * newDeviation) + ";" + (oldDenominator + 1);
+            }
+        }
+
     }
 }

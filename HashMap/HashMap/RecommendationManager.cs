@@ -33,6 +33,7 @@ namespace HashMap
 
             DeviationCalculator dc = new DeviationCalculator();
             deviations = dc.Execute();
+            dc.InsertRating(3, 105, 4.5);
 
             ItemItemRatingPredictor iirp = new ItemItemRatingPredictor(deviations);
 
