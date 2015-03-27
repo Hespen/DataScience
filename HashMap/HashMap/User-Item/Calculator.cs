@@ -11,6 +11,7 @@ namespace HashMap
         private ICalculator calculator;
         private Dictionary<int, UserPreference> ratingsDataSet;
         private RatingPredictor ratingPredictor;
+        private int _currentTarget;
 
         public Calculator()
         {
@@ -29,6 +30,7 @@ namespace HashMap
 
         public void ExecuteWithTarget(int i)
         {
+            _currentTarget = i;
             if (calculator == null)
             {
                 Console.WriteLine("Please specify a calculator");
@@ -68,10 +70,10 @@ namespace HashMap
         {
             ArrayList ids = new ArrayList();
 
-            UserPreference targetUser = RecommendationManager.UserPreferences[186];
+            UserPreference targetUser = RecommendationManager.UserPreferences[_currentTarget];
             foreach (var articleId in DataProcessor.ArticleIds)
             {
-                if (targetUser.GetRating(articleId) == -1)
+                if (targetUser.GetRating(articleId) == 0)
                 {
                     ids.Add(articleId);
                 }

@@ -24,6 +24,6 @@ public class UserPreference
 
     public float GetRating(int articleId)
     {
-        return ratings.ContainsKey(articleId) ? ratings[articleId] : -1;
+        return ratings.ContainsKey(articleId) ? ratings[articleId] : 0;
     }
 }

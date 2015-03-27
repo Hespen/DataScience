@@ -32,7 +32,12 @@ namespace HashMap.Strategy
             }
             return nearestNeighbours;
         }
-
+        /// <summary>
+        /// cos(x,y) = (x.y)/||v||
+        /// </summary>
+        /// <param name="targetUserPreferences">User preference class of the user for whom we calculate similarties for</param>
+        /// <param name="userPreference">User preference class of the user where we compare the target user to.</param>
+        /// <returns></returns>
         private double CalculateSimilarities(UserPreference targetUserPreferences,
             KeyValuePair<int, UserPreference> userPreference)
         {
@@ -40,10 +45,12 @@ namespace HashMap.Strategy
             double Xi = 0;
             double Yi = 0;
             double XiYi = 0;
-            foreach (var rating in targetUserPreferences.GetRatings())
+            
+            //Check the ratings for all items, even if they are 0
+            foreach (var articleId in DataProcessor.ArticleIds)
             {
-                float tarRating = rating.Value;
-                float userRating = userPreference.Value.GetRating(rating.Key);
+                float tarRating = targetUserPreferences.GetRating(articleId);
+                float userRating = userPreference.Value.GetRating(articleId);
                 Xi += Math.Pow(tarRating, 2);
                 Yi += Math.Pow(userRating, 2);
                 XiYi += tarRating*userRating;

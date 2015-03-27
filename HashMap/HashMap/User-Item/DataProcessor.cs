@@ -7,7 +7,8 @@ namespace HashMap
 {
     internal class DataProcessor
     {
-        private readonly String filePath = @"../../userItem.data";
+        private String _filePath = @"../../userItem.data";
+        private Char _splitChar = ',';
         private readonly Dictionary<int, UserPreference> _map;
         public static HashSet<int> ArticleIds;
 
@@ -17,11 +18,32 @@ namespace HashMap
             ArticleIds = new HashSet<int>();
         }
 
+        public void setFilePath(int path)
+        {
+            switch (path)
+            {
+                case Constants.ds1:
+                    _filePath = Constants.dataSet1;
+                    _splitChar = Constants.dataSplit;
+                    break;
+                case Constants.ds2:
+                    _filePath = Constants.dataSet2;
+                    _splitChar = Constants.dataSplit;
+                    break;
+                case Constants.ml:
+                    _filePath = Constants.movieLensDataSet;
+                    _splitChar = Constants.movieLensSplit;
+                    break;
+
+            }
+
+        }
+
         public Dictionary<int, UserPreference> ReadDataFromFile()
         {
             try
             {
-                using (var sr = new StreamReader(filePath))
+                using (var sr = new StreamReader(_filePath))
                 {
                     String line;
                     while ((line = sr.ReadLine()) != null)
@@ -41,7 +63,7 @@ namespace HashMap
 
         private void ProcessLine(String line)
         {
-            String[] data = line.Split(',');
+            String[] data = line.Split(_splitChar);
             UserPreference currentPreference;
             int userId = Convert.ToInt16(data[0]);
             int articleId = Convert.ToInt16(data[1]);
