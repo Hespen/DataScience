@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -24,6 +25,8 @@ namespace HashMap
 
         public void Execute()
         {
+            Stopwatch timer = new Stopwatch();
+            timer.Start();
             List<int> notRatedArticles = GetNotRatedArticles();
             _predictedRatings = new List<Tuple<int, int, double>>();
 
@@ -37,8 +40,11 @@ namespace HashMap
                 }
             }
 
-            _predictedRatings = _predictedRatings.OrderByDescending(tuple => tuple.Item3).ToList();
+            _predictedRatings = _predictedRatings.OrderByDescending(tuple => tuple.Item3).ToList().Take(8).ToList();
+            Console.WriteLine("time to predict ratings: "+timer.ElapsedMilliseconds);
+
             PrintResults(_predictedRatings);
+            Console.ReadKey();
         }
 
         public void SetUser(int targetUser)

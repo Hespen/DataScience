@@ -55,7 +55,10 @@ namespace HashMap
             {
                 ratingPredictor.ArticleId = (int)targetId;
                 double predictedRating = ratingPredictor.CalculateInfluenceWeight();
-                predictedRatings.Add((int)targetId,predictedRating);
+                if (predictedRating > -1)
+                {
+                    predictedRatings.Add((int) targetId, predictedRating);
+                }
             }
             int n = 0;
             foreach (var neighbour in predictedRatings.OrderByDescending(key => key.Value))

@@ -11,7 +11,7 @@ namespace HashMap
 {
     class DataTableProcessor
     {
-        private readonly String filePath = @"../../userItem.data";
+        private readonly String filePath = @"../../movielens.data";
         private readonly Dictionary<int, UserPreference> _map;
         public static HashSet<int> ArticleIds;
         private DataTable _userRatingsTemp;
@@ -53,7 +53,7 @@ namespace HashMap
 
         private void ProcessLine(String line)
         {
-            string[] lines = line.Split(',');
+            string[] lines = line.Split('\t');
             DataRow dr = _userRatingsTemp.NewRow();
             dr[0] = lines[0];
             dr[1] = lines[1];

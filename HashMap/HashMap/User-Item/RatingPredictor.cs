@@ -24,7 +24,7 @@ namespace HashMap
 
             double totalCoefficient = 0;
             var userRatings = new Dictionary<int, double>();
-
+            int counter = 0;
             foreach (var nearestNeighbour in _nearestNeighbours)
             {
                 
@@ -34,14 +34,16 @@ namespace HashMap
                     //Create new Dictionary with all neighbours who rated the product
                     UserPreference userPreference = RecommendationManager.UserPreferences[nearestNeighbour.Key];
                     float rating = userPreference.GetRating(_articleId);
-                    if (rating > -1)
+                    
+                    if (rating > 0)
                     {
+                        counter++;
                         totalCoefficient += nearestNeighbour.Value;
                         userRatings.Add(nearestNeighbour.Key,rating);
                     }
                 }
             }
-            
+            if (counter < 3) return -1;
             return CalculatePredictedRating(userRatings,totalCoefficient);
         }
 

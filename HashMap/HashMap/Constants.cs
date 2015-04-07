@@ -8,7 +8,7 @@ namespace HashMap
 {
     class Constants
     {
-        public static int NearestNeighbours = 50;
+        public static int NearestNeighbours = 25;
 
         //Constants to determine dataSet
         public const int ds1 = 0;
@@ -18,7 +18,7 @@ namespace HashMap
         //DataSet paths
         public static String dataSet1 = @"../../userItem.data";
         public static String dataSet2 = @"../../userItem2.data";
-        public static String movieLensDataSet = @"../../movelens.data";
+        public static String movieLensDataSet = @"../../movielens.data";
 
         //DataSet Split Chars
         public static Char dataSplit = ',';
